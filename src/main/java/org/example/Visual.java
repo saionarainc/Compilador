@@ -155,19 +155,55 @@ public class Visual extends JFrame {
         this.add(separacao, BorderLayout.CENTER);
     }
 
+    //Fazer funções 
     private void actionNovo() {
+        editor.setText("");       // limpa o editor
+        mensagens.setText("");    // limpa a área de mensagens
+       // status3.setText("");      // limpa a barra de status
+
+        mensagens.setText("Novo arquivo iniciado.\n");
+        
     }
 
     private void actionAbrir() {
+        JFileChooser fileChooser = new JFileChooser();
+    
+         // Filtro: apenas arquivos .txt
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Arquivos de Texto (*.txt)", "txt"));
+    
+        int opcao = fileChooser.showOpenDialog(this);
+
+        if (opcao == JFileChooser.APPROVE_OPTION) {
+            try {
+                java.io.File arquivo = fileChooser.getSelectedFile();
+
+                // Lê o conteúdo do arquivo (UTF-8 para ser compatível com Notepad moderno)
+                String conteudo = java.nio.file.Files.readString(arquivo.toPath());
+
+                // Atualiza interface
+                editor.setText(conteudo);
+                mensagens.setText(""); // limpa área de mensagens2
+                //status4.setText("Arquivo aberto: " + arquivo.getAbsolutePath());
+
+            } catch (Exception e) {
+                mensagens.setText("Erro ao abrir arquivo: " + e.getMessage());
+                //status4.setText("Falha ao abrir arquivo.");
+        }
+    } 
+    // else → usuário cancelou: não altera nada (mantém editor, mensagens e status4 como estavam)
     }
 
     private void actionSalvar() {
     }
 
     private void actionCopiar() {
+        String textoSelecionado = editor.getSelectedText();
+        editor.copy(); // só copia se houver seleção
     }
 
     private void actionColar() {
+        int posicaoCursor = editor.getCaretPosition(); // posição atual do cursor
+         editor.paste(); // cola da área de transferência
     }
 
     private void actionRecortar() {
@@ -177,6 +213,8 @@ public class Visual extends JFrame {
     }
 
     private void actionEquipe() {
+        mensagens.setText("Equipe: Ana Carolina Fanderuff Mellek e Saionara Inácio");
+
     }
 
     public static void main(String[] args) {
