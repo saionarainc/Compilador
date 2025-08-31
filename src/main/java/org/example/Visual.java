@@ -192,9 +192,10 @@ public class Visual extends JFrame {
 
             editor.setText(conteudo);
             mensagens.setText(""); 
-            lblStatus.setText("Arquivo aberto: " + arquivoAtual.getName());
-           
+
             arquivoAtual = arquivo;
+            lblStatus.setText("Arquivo aberto: " + arquivoAtual.getName());
+            
         } catch (Exception e) {
             mensagens.setText("Erro ao abrir arquivo: " + e.getMessage());
             
