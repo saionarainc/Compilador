@@ -1,6 +1,8 @@
 package org.example;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +13,7 @@ import java.net.URL;
 public class Visual extends JFrame {
     private final JTextArea editor = new JTextArea();
     private final JTextArea mensagens = new JTextArea();
+    private final JLabel lblStatus = new JLabel("Nenhum arquivo aberto");
 
     public Visual() {
         super("Compilador");
@@ -21,6 +24,8 @@ public class Visual extends JFrame {
         setLocationRelativeTo(null);
         criarBarraDeFerramentas();
         criarEspacoDeEdicao();
+        criarEspacoDeEdicao();
+        criarBarraDeStatus();
     }
 
     /**
@@ -132,12 +137,11 @@ public class Visual extends JFrame {
         editor.setFont(new Font("Arial", Font.PLAIN, 16));
         editor.setEditable(true);
         editor.setLineWrap(false);
-        editor.setBorder(new NumberedBorder());
+        editor.setBorder(new CompoundBorder(new NumberedBorder(),BorderFactory.createEmptyBorder(0, 15, 0, 0)));
         JScrollPane espacoEdicao = new JScrollPane(editor);
         espacoEdicao.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         espacoEdicao.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-
+        
         mensagens.setEditable(false);
         mensagens.setFont(new Font("Arial", Font.PLAIN, 16));
         JScrollPane espacoMensagens = new JScrollPane(mensagens);
@@ -151,6 +155,14 @@ public class Visual extends JFrame {
 
         this.add(separacao, BorderLayout.CENTER);
     }
+
+    private void criarBarraDeStatus() {
+    JPanel barraStatus = new JPanel(new BorderLayout());
+    barraStatus.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+    lblStatus.setFont(new Font("Arial", Font.ITALIC, 14));
+    barraStatus.add(lblStatus, BorderLayout.WEST);
+    this.add(barraStatus, BorderLayout.SOUTH);
+    }
   
     private java.io.File arquivoAtual = null; 
     
@@ -158,6 +170,8 @@ public class Visual extends JFrame {
         editor.setText("");       
         mensagens.setText("");    
         mensagens.setText("Novo arquivo iniciado.\n");
+        arquivoAtual = null;
+        lblStatus.setText("Novo arquivo (não salvo)");
     }
 
     private void actionAbrir() {
@@ -178,10 +192,9 @@ public class Visual extends JFrame {
 
             editor.setText(conteudo);
             mensagens.setText(""); 
+            lblStatus.setText("Arquivo aberto: " + arquivoAtual.getName());
            
-
             arquivoAtual = arquivo;
-
         } catch (Exception e) {
             mensagens.setText("Erro ao abrir arquivo: " + e.getMessage());
             
@@ -207,12 +220,14 @@ public class Visual extends JFrame {
                 java.nio.file.Files.writeString(arquivoAtual.toPath(), editor.getText());
 
                 mensagens.setText(""); 
+                lblStatus.setText("Arquivo salvo: " + arquivoAtual.getName());
             }
 
         } else {
             //Já existe arquivo aberto
             java.nio.file.Files.writeString(arquivoAtual.toPath(), editor.getText());
             mensagens.setText("");
+            lblStatus.setText("Arquivo salvo: " + arquivoAtual.getName());
             
         }
 
