@@ -23,7 +23,6 @@ public class Visual extends JFrame {
         criarEspacoDeEdicao();
     }
 
-
     /**
      * Método cria o espaço da barra de ferramentas, define um tamanho padronizado para os botões
      * e os adiciona no espaço reservado
@@ -44,7 +43,7 @@ public class Visual extends JFrame {
         JButton btnSalvar = criarBotao("Salvar\n(CTRL-S)", KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("save.png"), e -> actionSalvar());
         ferramentas.add(btnSalvar);
 
-        JButton btnCopiar = criarBotao("Copiar\n(CTRL-C)", KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("Copy2.png"), e -> actionCopiar());
+        JButton btnCopiar = criarBotao("Copiar\n(CTRL-C)", KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("copy.png"), e -> actionCopiar());
         ferramentas.add(btnCopiar);
 
         JButton btnColar = criarBotao("Colar\n(CTRL-V)", KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("note.png"), e -> actionColar());
@@ -61,7 +60,6 @@ public class Visual extends JFrame {
 
         this.add(ferramentas, BorderLayout.NORTH);
     }
-
 
     /**
      * Método para padronizar requisitos visuais esperados de um botão e padroniza comportamento
@@ -105,7 +103,7 @@ public class Visual extends JFrame {
                 Image img = icone.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
                 return new ImageIcon(img);
             }
-            //se a criação do ícone falhar, o código ignora o erro e cria uma imagem genérica com a primeira letra do botão
+            
         } catch (Exception e) {
         }
         return criarImagem(Color.blue, nome.substring(0, 1).toUpperCase());
@@ -134,10 +132,8 @@ public class Visual extends JFrame {
         editor.setFont(new Font("Arial", Font.PLAIN, 16));
         editor.setEditable(true);
         editor.setLineWrap(false);
-
         editor.setBorder(new NumberedBorder());
         JScrollPane espacoEdicao = new JScrollPane(editor);
-        espacoEdicao.setBorder(BorderFactory.createCompoundBorder(new NumberedBorder(), BorderFactory.createEmptyBorder(5,5,5,5)));
         espacoEdicao.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         espacoEdicao.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
@@ -155,10 +151,9 @@ public class Visual extends JFrame {
 
         this.add(separacao, BorderLayout.CENTER);
     }
-
   
     private java.io.File arquivoAtual = null; 
-    //Fazer funções 
+    
     private void actionNovo() {
         editor.setText("");       
         mensagens.setText("");    
@@ -183,13 +178,13 @@ public class Visual extends JFrame {
 
             editor.setText(conteudo);
             mensagens.setText(""); 
-            //status4.setText("Arquivo aberto: " + arquivo.getAbsolutePath());
+           
 
             arquivoAtual = arquivo;
 
         } catch (Exception e) {
             mensagens.setText("Erro ao abrir arquivo: " + e.getMessage());
-            //status4.setText("Falha ao abrir arquivo.");
+            
         }
     }
     }
@@ -205,50 +200,47 @@ public class Visual extends JFrame {
             if (opcao == JFileChooser.APPROVE_OPTION) {
                 arquivoAtual = fileChooser.getSelectedFile();
 
-                // Garante que a extensão seja .txt
                 if (!arquivoAtual.getName().toLowerCase().endsWith(".txt")) {
                     arquivoAtual = new java.io.File(arquivoAtual.getAbsolutePath() + ".txt");
                 }
 
                 java.nio.file.Files.writeString(arquivoAtual.toPath(), editor.getText());
 
-                mensagens.setText(""); // limpa mensagens2
-                //status4.setText("Arquivo salvo em: " + arquivoAtual.getAbsolutePath());
+                mensagens.setText(""); 
             }
 
         } else {
             //Já existe arquivo aberto
             java.nio.file.Files.writeString(arquivoAtual.toPath(), editor.getText());
-            mensagens.setText(""); // limpa mensagens2
-            //status5.setText("Alterações salvas em: " + arquivoAtual.getAbsolutePath());
+            mensagens.setText("");
+            
         }
 
-    } catch (Exception e) {
-        mensagens.setText("Erro ao salvar arquivo: " + e.getMessage());
-        //status4.setText("Falha ao salvar arquivo.");
-    }
+        } catch (Exception e) {
+            mensagens.setText("Erro ao salvar arquivo: " + e.getMessage());
+        }
         
     }
-     //Feito
+    
     private void actionCopiar() {
         String textoSelecionado = editor.getSelectedText();
         editor.copy(); 
     }
-     //Feito
+    
     private void actionColar() {
         int posicaoCursor = editor.getCaretPosition();
          editor.paste(); 
     }
-     //Feito
+    
     private void actionRecortar() { 
         String textoSelecionado = editor.getSelectedText();
         editor.cut();
     }
-    //Feito
+    
     private void actionCompilar() {
         mensagens.setText("Compilação de programas ainda não foi implementada.");
     }
-     //Feito
+    
     private void actionEquipe() {
         mensagens.setText("Equipe: Ana Carolina Fanderuff Mellek e Saionara Inácio");
     }
