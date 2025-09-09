@@ -1,6 +1,8 @@
 package org.example;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +13,7 @@ import java.net.URL;
 public class Visual extends JFrame {
     private final JTextArea editor = new JTextArea();
     private final JTextArea mensagens = new JTextArea();
+    private final JLabel lblStatus = new JLabel("Nenhum arquivo aberto");
 
     public Visual() {
         super("Compilador");
@@ -21,8 +24,9 @@ public class Visual extends JFrame {
         setLocationRelativeTo(null);
         criarBarraDeFerramentas();
         criarEspacoDeEdicao();
+        criarEspacoDeEdicao();
+        criarBarraDeStatus();
     }
-
 
     /**
      * Método cria o espaço da barra de ferramentas, define um tamanho padronizado para os botões
@@ -34,34 +38,33 @@ public class Visual extends JFrame {
         ferramentas.setPreferredSize(new Dimension(1500, 70));
 
         Dimension btnTamanho = new Dimension(100, 60);
-
-        JButton btnNovo = criarBotao("Novo\n(CTRL-N)", KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("add.png"), e -> actionNovo());
+        //mudar icon
+        JButton btnNovo = criarBotao("Novo\n(CTRL-N)", KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("Add2.png"), e -> actionNovo());
         ferramentas.add(btnNovo);
 
-        JButton btnAbrir = criarBotao("Abrir\n(CTRL-O)", KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("folder.png"), e -> actionAbrir());
+        JButton btnAbrir = criarBotao("Abrir\n(CTRL-O)", KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("open.png"), e -> actionAbrir());
         ferramentas.add(btnAbrir);
 
-        JButton btnSalvar = criarBotao("Salvar\n(CTRL-S)", KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("floppy.png"), e -> actionSalvar());
+        JButton btnSalvar = criarBotao("Salvar\n(CTRL-S)", KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("save.png"), e -> actionSalvar());
         ferramentas.add(btnSalvar);
 
-        JButton btnCopiar = criarBotao("Copiar\n(CTRL-C)", KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("clipboard.png"), e -> actionCopiar());
+        JButton btnCopiar = criarBotao("Copiar\n(CTRL-C)", KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("copy.png"), e -> actionCopiar());
         ferramentas.add(btnCopiar);
 
-        JButton btnColar = criarBotao("Colar\n(CTRL-V)", KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("files.png"), e -> actionColar());
+        JButton btnColar = criarBotao("Colar\n(CTRL-V)", KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("note.png"), e -> actionColar());
         ferramentas.add(btnColar);
 
-        JButton btnRecortar = criarBotao("Recortar\n(CTRL-X)", KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("cutting.png"), e -> actionRecortar());
+        JButton btnRecortar = criarBotao("Recortar\n(CTRL-X)", KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("cutt.png"), e -> actionRecortar());
         ferramentas.add(btnRecortar);
 
-        JButton btnCompilar = criarBotao("Compilar\n(F7)", KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0), btnTamanho, carregarIcone("browser.png"), e -> actionCompilar());
+        JButton btnCompilar = criarBotao("Compilar\n(F7)", KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0), btnTamanho, carregarIcone("compilation.png"), e -> actionCompilar());
         ferramentas.add(btnCompilar);
 
-        JButton btnEquipe = criarBotao("Equipe\n(F1)", KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), btnTamanho, carregarIcone("business.png"), e -> actionEquipe());
+        JButton btnEquipe = criarBotao("Equipe\n(F1)", KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), btnTamanho, carregarIcone("team.png"), e -> actionEquipe());
         ferramentas.add(btnEquipe);
 
         this.add(ferramentas, BorderLayout.NORTH);
     }
-
 
     /**
      * Método para padronizar requisitos visuais esperados de um botão e padroniza comportamento
@@ -105,7 +108,7 @@ public class Visual extends JFrame {
                 Image img = icone.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
                 return new ImageIcon(img);
             }
-            //se a criação do ícone falhar, o código ignora o erro e cria uma imagem genérica com a primeira letra do botão
+            
         } catch (Exception e) {
         }
         return criarImagem(Color.blue, nome.substring(0, 1).toUpperCase());
@@ -134,13 +137,11 @@ public class Visual extends JFrame {
         editor.setFont(new Font("Arial", Font.PLAIN, 16));
         editor.setEditable(true);
         editor.setLineWrap(false);
-
+        editor.setBorder(new CompoundBorder(new NumberedBorder(),BorderFactory.createEmptyBorder(0, 15, 0, 0)));
         JScrollPane espacoEdicao = new JScrollPane(editor);
-        espacoEdicao.setBorder(BorderFactory.createCompoundBorder(new NumberedBorder(), BorderFactory.createEmptyBorder(5,5,5,5)));
         espacoEdicao.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         espacoEdicao.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-
+        
         mensagens.setEditable(false);
         mensagens.setFont(new Font("Arial", Font.PLAIN, 16));
         JScrollPane espacoMensagens = new JScrollPane(mensagens);
@@ -155,28 +156,109 @@ public class Visual extends JFrame {
         this.add(separacao, BorderLayout.CENTER);
     }
 
+    private void criarBarraDeStatus() {
+    JPanel barraStatus = new JPanel(new BorderLayout());
+    barraStatus.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+    lblStatus.setFont(new Font("Arial", Font.ITALIC, 14));
+    barraStatus.add(lblStatus, BorderLayout.WEST);
+    this.add(barraStatus, BorderLayout.SOUTH);
+    }
+  
+    private java.io.File arquivoAtual = null; 
+    
     private void actionNovo() {
+        editor.setText("");       
+        mensagens.setText("");    
+        mensagens.setText("Novo arquivo iniciado.\n");
+        arquivoAtual = null;
+        lblStatus.setText("Novo arquivo (não salvo)");
     }
 
     private void actionAbrir() {
+          JFileChooser fileChooser = new JFileChooser();
+          fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Arquivos de Texto (*.txt)", "txt"));
+
+        int opcao = fileChooser.showOpenDialog(this);
+
+        if (opcao == JFileChooser.APPROVE_OPTION) {
+         try {
+            java.io.File arquivo = fileChooser.getSelectedFile();
+            if (!arquivo.getName().toLowerCase().endsWith(".txt")) {
+                mensagens.setText("Erro: apenas arquivos .txt podem ser abertos.\n");
+                return;
+            }
+
+            String conteudo = java.nio.file.Files.readString(arquivo.toPath());
+
+            editor.setText(conteudo);
+            mensagens.setText(""); 
+
+            arquivoAtual = arquivo;
+            lblStatus.setText("Arquivo aberto: " + arquivoAtual.getName());
+            
+        } catch (Exception e) {
+            mensagens.setText("Erro ao abrir arquivo: " + e.getMessage());
+            
+        }
+    }
     }
 
     private void actionSalvar() {
-    }
+        try {
+        if (arquivoAtual == null) {
+            //Arquivo novo
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Arquivos de Texto (*.txt)", "txt"));
 
+            int opcao = fileChooser.showSaveDialog(this);
+            if (opcao == JFileChooser.APPROVE_OPTION) {
+                arquivoAtual = fileChooser.getSelectedFile();
+
+                if (!arquivoAtual.getName().toLowerCase().endsWith(".txt")) {
+                    arquivoAtual = new java.io.File(arquivoAtual.getAbsolutePath() + ".txt");
+                }
+
+                java.nio.file.Files.writeString(arquivoAtual.toPath(), editor.getText());
+
+                mensagens.setText(""); 
+                lblStatus.setText("Arquivo salvo: " + arquivoAtual.getName());
+            }
+
+        } else {
+            //Já existe arquivo aberto
+            java.nio.file.Files.writeString(arquivoAtual.toPath(), editor.getText());
+            mensagens.setText("");
+            lblStatus.setText("Arquivo salvo: " + arquivoAtual.getName());
+            
+        }
+
+        } catch (Exception e) {
+            mensagens.setText("Erro ao salvar arquivo: " + e.getMessage());
+        }
+        
+    }
+    
     private void actionCopiar() {
+        String textoSelecionado = editor.getSelectedText();
+        editor.copy(); 
     }
-
+    
     private void actionColar() {
+        int posicaoCursor = editor.getCaretPosition();
+         editor.paste(); 
     }
-
-    private void actionRecortar() {
+    
+    private void actionRecortar() { 
+        String textoSelecionado = editor.getSelectedText();
+        editor.cut();
     }
-
+    
     private void actionCompilar() {
+        mensagens.setText("Compilação de programas ainda não foi implementada.");
     }
-
+    
     private void actionEquipe() {
+        mensagens.setText("Equipe: Ana Carolina Fanderuff Mellek e Saionara Inácio");
     }
 
     public static void main(String[] args) {
