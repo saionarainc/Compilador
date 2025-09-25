@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Visual extends JFrame {
     private final JTextArea editor = new JTextArea();
@@ -29,7 +30,8 @@ public class Visual extends JFrame {
     }
 
     /**
-     * Método cria o espaço da barra de ferramentas, define um tamanho padronizado para os botões
+     * Método cria o espaço da barra de ferramentas, define um tamanho padronizado
+     * para os botões
      * e os adiciona no espaço reservado
      */
     private void criarBarraDeFerramentas() {
@@ -38,36 +40,49 @@ public class Visual extends JFrame {
         ferramentas.setPreferredSize(new Dimension(1500, 70));
 
         Dimension btnTamanho = new Dimension(100, 60);
-        //mudar icon
-        JButton btnNovo = criarBotao("Novo\n(CTRL-N)", KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("Add2.png"), e -> actionNovo());
+        // mudar icon
+        JButton btnNovo = criarBotao("Novo\n(CTRL-N)", KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK),
+                btnTamanho, carregarIcone("Add2.png"), e -> actionNovo());
         ferramentas.add(btnNovo);
 
-        JButton btnAbrir = criarBotao("Abrir\n(CTRL-O)", KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("open.png"), e -> actionAbrir());
+        JButton btnAbrir = criarBotao("Abrir\n(CTRL-O)", KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK),
+                btnTamanho, carregarIcone("open.png"), e -> actionAbrir());
         ferramentas.add(btnAbrir);
 
-        JButton btnSalvar = criarBotao("Salvar\n(CTRL-S)", KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("save.png"), e -> actionSalvar());
+        JButton btnSalvar = criarBotao("Salvar\n(CTRL-S)",
+                KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("save.png"),
+                e -> actionSalvar());
         ferramentas.add(btnSalvar);
 
-        JButton btnCopiar = criarBotao("Copiar\n(CTRL-C)", KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("copy.png"), e -> actionCopiar());
+        JButton btnCopiar = criarBotao("Copiar\n(CTRL-C)",
+                KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("copy.png"),
+                e -> actionCopiar());
         ferramentas.add(btnCopiar);
 
-        JButton btnColar = criarBotao("Colar\n(CTRL-V)", KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("note.png"), e -> actionColar());
+        JButton btnColar = criarBotao("Colar\n(CTRL-V)", KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK),
+                btnTamanho, carregarIcone("note.png"), e -> actionColar());
         ferramentas.add(btnColar);
 
-        JButton btnRecortar = criarBotao("Recortar\n(CTRL-X)", KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("cutt.png"), e -> actionRecortar());
+        JButton btnRecortar = criarBotao("Recortar\n(CTRL-X)",
+                KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK), btnTamanho, carregarIcone("cutt.png"),
+                e -> actionRecortar());
         ferramentas.add(btnRecortar);
 
-        JButton btnCompilar = criarBotao("Compilar\n(F7)", KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0), btnTamanho, carregarIcone("compilation.png"), e -> actionCompilar());
+        JButton btnCompilar = criarBotao("Compilar\n(F7)", KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0), btnTamanho,
+                carregarIcone("compilation.png"), e -> actionCompilar());
         ferramentas.add(btnCompilar);
 
-        JButton btnEquipe = criarBotao("Equipe\n(F1)", KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), btnTamanho, carregarIcone("team.png"), e -> actionEquipe());
+        JButton btnEquipe = criarBotao("Equipe\n(F1)", KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), btnTamanho,
+                carregarIcone("team.png"), e -> actionEquipe());
         ferramentas.add(btnEquipe);
 
         this.add(ferramentas, BorderLayout.NORTH);
     }
 
     /**
-     * Método para padronizar requisitos visuais esperados de um botão e padroniza comportamento
+     * Método para padronizar requisitos visuais esperados de um botão e padroniza
+     * comportamento
+     * 
      * @param nome
      * @param ks
      * @param tamanho
@@ -75,7 +90,7 @@ public class Visual extends JFrame {
      * @param al
      * @return imagem do botão conforme o recebido por parâmetro
      */
-    private JButton criarBotao (String nome, KeyStroke ks, Dimension tamanho, ImageIcon icone, ActionListener al) {
+    private JButton criarBotao(String nome, KeyStroke ks, Dimension tamanho, ImageIcon icone, ActionListener al) {
         JButton botao = new JButton(nome, icone);
         botao.addActionListener(al::actionPerformed);
         botao.setPreferredSize(tamanho);
@@ -96,7 +111,9 @@ public class Visual extends JFrame {
     }
 
     /**
-     * Faz a procura dentro da pasta resources e caso não encontre, chama criarImagem() para gerar um genérico
+     * Faz a procura dentro da pasta resources e caso não encontre, chama
+     * criarImagem() para gerar um genérico
+     * 
      * @param nome
      * @return imagem criada a partir dos ícones pngs na pasta resources/icons/
      */
@@ -108,7 +125,7 @@ public class Visual extends JFrame {
                 Image img = icone.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
                 return new ImageIcon(img);
             }
-            
+
         } catch (Exception e) {
         }
         return criarImagem(Color.blue, nome.substring(0, 1).toUpperCase());
@@ -116,9 +133,11 @@ public class Visual extends JFrame {
 
     /**
      * Método para gerar uma imagem genérica caso a criação da foto do botão falhe
+     * 
      * @param color
      * @param letra
-     * @return imagem arredondada 20x20 com a 1ª letra do botão centralizada em branco e negrito
+     * @return imagem arredondada 20x20 com a 1ª letra do botão centralizada em
+     *         branco e negrito
      */
     private ImageIcon criarImagem(Color color, String letra) {
         BufferedImage img = new BufferedImage(45, 45, BufferedImage.TYPE_INT_ARGB);
@@ -137,11 +156,11 @@ public class Visual extends JFrame {
         editor.setFont(new Font("Arial", Font.PLAIN, 16));
         editor.setEditable(true);
         editor.setLineWrap(false);
-        editor.setBorder(new CompoundBorder(new NumberedBorder(),BorderFactory.createEmptyBorder(0, 15, 0, 0)));
+        editor.setBorder(new CompoundBorder(new NumberedBorder(), BorderFactory.createEmptyBorder(0, 15, 0, 0)));
         JScrollPane espacoEdicao = new JScrollPane(editor);
         espacoEdicao.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         espacoEdicao.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        
+
         mensagens.setEditable(false);
         mensagens.setFont(new Font("Arial", Font.PLAIN, 16));
         JScrollPane espacoMensagens = new JScrollPane(mensagens);
@@ -157,106 +176,159 @@ public class Visual extends JFrame {
     }
 
     private void criarBarraDeStatus() {
-    JPanel barraStatus = new JPanel(new BorderLayout());
-    barraStatus.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-    lblStatus.setFont(new Font("Arial", Font.ITALIC, 14));
-    barraStatus.add(lblStatus, BorderLayout.WEST);
-    this.add(barraStatus, BorderLayout.SOUTH);
+        JPanel barraStatus = new JPanel(new BorderLayout());
+        barraStatus.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        lblStatus.setFont(new Font("Arial", Font.ITALIC, 14));
+        barraStatus.add(lblStatus, BorderLayout.WEST);
+        this.add(barraStatus, BorderLayout.SOUTH);
     }
-  
-    private java.io.File arquivoAtual = null; 
-    
+
+    private java.io.File arquivoAtual = null;
+
     private void actionNovo() {
-        editor.setText("");       
-        mensagens.setText("");    
+        editor.setText("");
+        mensagens.setText("");
         mensagens.setText("Novo arquivo iniciado.\n");
         arquivoAtual = null;
         lblStatus.setText("Novo arquivo (não salvo)");
     }
 
     private void actionAbrir() {
-          JFileChooser fileChooser = new JFileChooser();
-          fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Arquivos de Texto (*.txt)", "txt"));
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser
+                .setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Arquivos de Texto (*.txt)", "txt"));
 
         int opcao = fileChooser.showOpenDialog(this);
 
         if (opcao == JFileChooser.APPROVE_OPTION) {
-         try {
-            java.io.File arquivo = fileChooser.getSelectedFile();
-            if (!arquivo.getName().toLowerCase().endsWith(".txt")) {
-                mensagens.setText("Erro: apenas arquivos .txt podem ser abertos.\n");
-                return;
+            try {
+                java.io.File arquivo = fileChooser.getSelectedFile();
+                if (!arquivo.getName().toLowerCase().endsWith(".txt")) {
+                    mensagens.setText("Erro: apenas arquivos .txt podem ser abertos.\n");
+                    return;
+                }
+
+                String conteudo = java.nio.file.Files.readString(arquivo.toPath());
+
+                editor.setText(conteudo);
+                mensagens.setText("");
+
+                arquivoAtual = arquivo;
+                lblStatus.setText("Arquivo aberto: " + arquivoAtual.getName());
+
+            } catch (Exception e) {
+                mensagens.setText("Erro ao abrir arquivo: " + e.getMessage());
+
             }
-
-            String conteudo = java.nio.file.Files.readString(arquivo.toPath());
-
-            editor.setText(conteudo);
-            mensagens.setText(""); 
-
-            arquivoAtual = arquivo;
-            lblStatus.setText("Arquivo aberto: " + arquivoAtual.getName());
-            
-        } catch (Exception e) {
-            mensagens.setText("Erro ao abrir arquivo: " + e.getMessage());
-            
         }
-    }
     }
 
     private void actionSalvar() {
         try {
-        if (arquivoAtual == null) {
-            //Arquivo novo
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Arquivos de Texto (*.txt)", "txt"));
+            if (arquivoAtual == null) {
+                // Arquivo novo
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileFilter(
+                        new javax.swing.filechooser.FileNameExtensionFilter("Arquivos de Texto (*.txt)", "txt"));
 
-            int opcao = fileChooser.showSaveDialog(this);
-            if (opcao == JFileChooser.APPROVE_OPTION) {
-                arquivoAtual = fileChooser.getSelectedFile();
+                int opcao = fileChooser.showSaveDialog(this);
+                if (opcao == JFileChooser.APPROVE_OPTION) {
+                    arquivoAtual = fileChooser.getSelectedFile();
 
-                if (!arquivoAtual.getName().toLowerCase().endsWith(".txt")) {
-                    arquivoAtual = new java.io.File(arquivoAtual.getAbsolutePath() + ".txt");
+                    if (!arquivoAtual.getName().toLowerCase().endsWith(".txt")) {
+                        arquivoAtual = new java.io.File(arquivoAtual.getAbsolutePath() + ".txt");
+                    }
+
+                    java.nio.file.Files.writeString(arquivoAtual.toPath(), editor.getText());
+
+                    mensagens.setText("");
+                    lblStatus.setText("Arquivo salvo: " + arquivoAtual.getName());
                 }
 
+            } else {
+                // Já existe arquivo aberto
                 java.nio.file.Files.writeString(arquivoAtual.toPath(), editor.getText());
-
-                mensagens.setText(""); 
+                mensagens.setText("");
                 lblStatus.setText("Arquivo salvo: " + arquivoAtual.getName());
-            }
 
-        } else {
-            //Já existe arquivo aberto
-            java.nio.file.Files.writeString(arquivoAtual.toPath(), editor.getText());
-            mensagens.setText("");
-            lblStatus.setText("Arquivo salvo: " + arquivoAtual.getName());
-            
-        }
+            }
 
         } catch (Exception e) {
             mensagens.setText("Erro ao salvar arquivo: " + e.getMessage());
         }
-        
+
     }
-    
+
     private void actionCopiar() {
         String textoSelecionado = editor.getSelectedText();
-        editor.copy(); 
+        editor.copy();
     }
-    
+
     private void actionColar() {
         int posicaoCursor = editor.getCaretPosition();
-         editor.paste(); 
+        editor.paste();
     }
-    
-    private void actionRecortar() { 
+
+    private void actionRecortar() {
         String textoSelecionado = editor.getSelectedText();
         editor.cut();
     }
-    
+
     private void actionCompilar() {
-        mensagens.setText("Compilação de programas ainda não foi implementada.");
+        mensagens.setText("");
+        Lexico lexico = new Lexico();
+        String input = editor.getText();
+        lexico.setInput(input);
+
+        ArrayList<Token> listaTokens = new ArrayList<>();
+
+        try {
+            Token t = null;
+            while ((t = lexico.nextToken()) != null) {
+                listaTokens.add(t);
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.append("Programa compilado com sucesso! \n\n");
+            sb.append(String.format("%-6s \t%-18s \t%s%n", "linha", "classe", "lexema"));
+
+            for (Token token : listaTokens) {
+                String classe = ScannerConstants.ClasseToken(token.getId(), token.getLexeme());
+                int linha = token.getPosition();
+                String lexema = token.getLexeme();
+
+                sb.append(String.format("%-6d \t%-18s \t%s%n", linha, classe, lexema));
+            }
+            mensagens.setText(sb.toString());
+        }
+
+        catch (LexicalError e) {
+            mensagens.setText("");
+
+            int posicaoErro = e.getPosition();
+            String msgErro = e.getMessage();
+            String simboloErro = actualChar(input, posicaoErro);
+
+            String formatacaoSaida = String.format("linha %d: %s %s", posicaoErro, simboloErro, msgErro);
+            mensagens.setText(formatacaoSaida);
+        }
     }
-    
+
+    private String actualChar(String texto, int pos) {
+        if (texto == null || pos < 0 || pos >= texto.length())
+            return "";
+
+        char c = texto.charAt(pos);
+        if (c == '\n')
+            return "\\n";
+        if (c == '\r')
+            return "\\r";
+        if (c == '\t')
+            return "\\t";
+        return String.valueOf(c);
+    }
+
     private void actionEquipe() {
         mensagens.setText("Equipe: Ana Carolina Fanderuff Mellek e Saionara Inácio");
     }
