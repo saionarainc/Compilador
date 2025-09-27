@@ -4,6 +4,7 @@ public class Lexico implements Constants
 {
     private int position;
     private String input;
+    private int contaLinha;
 
     public Lexico()
     {
@@ -140,4 +141,5 @@ public class Lexico implements Constants
         else
             return (char) -1;
     }
+    
 }
