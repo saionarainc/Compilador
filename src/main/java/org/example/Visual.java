@@ -274,6 +274,16 @@ public class Visual extends JFrame {
         editor.cut();
     }
 
+    public static int encontraLinha(String texto, int posicao) {
+        int linha = 1;
+        for (int i = 0; i < posicao && i < texto.length(); i++) {
+            if (texto.charAt(i) == '\n') {
+                linha++;
+            }
+    }
+        return linha;
+    }
+
     private void actionCompilar() {
         mensagens.setText("");
         Lexico lexico = new Lexico();
@@ -295,9 +305,9 @@ public class Visual extends JFrame {
 
             for (Token token : listaTokens) {
                 String classe = ScannerConstants.ClasseToken(token.getId(), token.getLexeme());
-                int linha = token.getPosition();
+    
+                int linha = encontraLinha(input, token.getPosition());
                 String lexema = token.getLexeme();
-
                 sb.append(String.format("%-6d \t%-18s \t%s%n", linha, classe, lexema));
             }
             mensagens.setText(sb.toString());
@@ -306,11 +316,12 @@ public class Visual extends JFrame {
         catch (LexicalError e) {
             mensagens.setText("");
 
+            int linha = encontraLinha(input, e.getPosition());
             int posicaoErro = e.getPosition();
             String msgErro = e.getMessage();
             String simboloErro = actualChar(input, posicaoErro);
 
-            String formatacaoSaida = String.format("linha %d: %s %s", posicaoErro, simboloErro, msgErro);
+            String formatacaoSaida = String.format("linha %d: %s %s", linha, simboloErro, msgErro);
             mensagens.setText(formatacaoSaida);
         }
     }
