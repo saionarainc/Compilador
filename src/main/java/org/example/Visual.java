@@ -301,14 +301,13 @@ public class Visual extends JFrame {
             StringBuilder sb = new StringBuilder();
 
             sb.append("Programa compilado com sucesso! \n\n");
-            sb.append(String.format("%-6s \t%-18s \t%s%n", "linha", "classe", "lexema"));
 
             for (Token token : listaTokens) {
                 String classe = ScannerConstants.ClasseToken(token.getId(), token.getLexeme());
     
                 int linha = encontraLinha(input, token.getPosition());
                 String lexema = token.getLexeme();
-                sb.append(String.format("%-6d \t%-18s \t%s%n", linha, classe, lexema));
+               // sb.append(String.format("%-6d \t%-18s \t%s%n", linha, classe, lexema));
             }
             mensagens.setText(sb.toString());
         }

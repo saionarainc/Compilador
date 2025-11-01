@@ -4,7 +4,6 @@ public class Lexico implements Constants
 {
     private int position;
     private String input;
-    private int contaLinha;
 
     public Lexico()
     {
@@ -59,23 +58,29 @@ public class Lexico implements Constants
         }
 
         if (endState < 0 || (endState != state && tokenForState(lastState) == -2)) {
-            String msg = (String) ScannerConstants.SCANNER_ERROR().get(lastState);
-            if (msg == null) {
-                msg = "";
-            } 
-            throw new LexicalError(msg, start);
+        
+            throw new LexicalError(SCANNER_ERROR[lastState], start);
         }
             
         position = end;
 
         int token = tokenForState(endState);
 
-        if (token == 0)
+        if (token == 0) 
             return nextToken();
         else
         {
             String lexeme = input.substring(start, end);
             token = lookupToken(token, lexeme);
+            
+            if (token == Constants.t_id) {
+                if(position < input.length()) {
+                    char nextChar = input.charAt(position);
+                    if (nextChar >= '0' && nextChar <= '9') {
+                        throw new LexicalError("identificador inválido", start);
+                    }
+                }
+            }
             return new Token(token, lexeme, start);
         }
     }
