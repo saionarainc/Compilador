@@ -178,42 +178,42 @@ public interface ParserConstants
         "esperado <-",//"Era esperado \"<-\"",
         "esperado ;",//"Era esperado \";\"",
         "esperado ,",//"Era esperado \",\"",
-        "esperado expressão",//"<forma_geral> inválido",
-        "esperado identificador do if print read tipo",//"<lista_instru> inválido",
-        "esperado expressão",//"<dec_var> inválido",
-        "esperado expressão",//"<comando> inválido",
-        "esperado expressão",//"<entrada> inválido",
-        "esperado expressão",//"<saida> inválido",
-        "esperado expressão",//"<selecao> inválido",
-        "esperado expressão",//"<repeticao> inválido",
+        "esperado begin",//"<forma_geral> inválido",
+        "esperado identificador do if print read tipo ;",//"<lista_instru> inválido",
+        "esperado tipo",//"<dec_var> inválido",
+        "esperado identificador do if print read",//"<comando> inválido",
+        "esperado read",//"<entrada> inválido",
+        "esperado print",//"<saida> inválido",
+        "esperado if",//"<selecao> inválido",
+        "esperado do",//"<repeticao> inválido",
         "esperado tipo",//"<tipo> inválido",
         "esperado identificador",//"<lista_ids> inválido",
         "esperado expressão",//"<elemento> inválido",
         "esperado expressão",//"<posicao> inválido",
-        "esperado expressão",//"<lista_entrada> inválido",
-        "esperado expressão",//"<cte_string_opc> inválido",
-        "esperado expressão",//"<lista_expre> inválido",
-        "esperado expressão",//"<expressao> inválido",
-        "esperado expressão",//"<lista_cmd> inválido",
-        "esperado expressão",//"<simples> inválido",
-        "esperado expressão",//"<expressao_> inválido",
-        "esperado expressão",//"<relacional> inválido",
-        "esperado expressão",//"<relacional_> inválido",
-        "esperado expressão",//"<valor> inválido",
-        "esperado expressão",//"<operador_relacional> inválido",
-        "esperado expressão",//"<aritmetica> inválido",
-        "esperado expressão",//"<aritmetica_> inválido",
-        "esperado expressão",//"<termo> inválido",
-        "esperado expressão",//"<termo_> inválido",
-        "esperado expressão",//"<fator> inválido",
-        "esperado expressão",//"<fator_> inválido",
-        "esperado expressão",//"<instrucao> inválido",
-        "esperado expressão",//"<lista_instru1> inválido",
-        "esperado expressão",//"<escolha> inválido",
-        "esperado expressão",//"<lista_ids1> inválido",
-        "esperado expressão",//"<lista_entrada1> inválido",
-        "esperado expressão",//"<lista_expre1> inválido",
-        "esperado expressão",//"<selecao1> inválido",
-        "esperado expressão",//"<lista_cmd1> inválido"
+        "esperado identificador constante_string",//"<lista_entrada> inválido",
+        "esperado identificador constante_string",//"<cte_string_opc> inválido",
+        "esperado expressão",//"<lista_expre> inválido", X
+        "esperado expressão",//"<expressao> inválido", X
+        "esperado identificador do if print read",//"<lista_cmd> inválido",
+        "esperado tipo primitivo",//"<simples> inválido",
+        "esperado expressão",//"<expressao_> inválido", X
+        "esperado expressão",//"<relacional> inválido", X
+        "esperado expressão",//"<relacional_> inválido", X
+        "esperado expressão",//"<valor> inválido", X
+        "esperado ~= == < >",//"<operador_relacional> inválido",
+        "esperado expressão",//"<aritmetica> inválido", X
+        "esperado expressão",//"<aritmetica_> inválido", X
+        "esperado expressão",//"<termo> inválido", X
+        "esperado expressão",//"<termo_> inválido", X
+        "esperado expressão",//"<fator> inválido", X
+        "esperado expressão",//"<fator_> inválido", X
+        "esperado identificador do if print read tipo",//"<instrucao> inválido",
+        "esperado identificador do end if print read tipo",//"<lista_instru1> inválido",
+        "esperado = <- ( , )",//"<escolha> inválido",
+        "esperado ; ,",//"<lista_ids1> inválido",
+        "esperado ,",//"<lista_entrada1> inválido",
+        "esperado ) ,",//"<lista_expre1> inválido",
+        "esperado identificador end else",//"<selecao1> inválido",
+        "esperado identificador do else end if print read",//"<lista_cmd1> inválido"
     };
 }

@@ -280,49 +280,39 @@ public class Visual extends JFrame {
             if (texto.charAt(i) == '\n') {
                 linha++;
             }
-    }
+        }
         return linha;
     }
 
     private void actionCompilar() {
         mensagens.setText("");
-        Lexico lexico = new Lexico();
         String input = editor.getText();
-        lexico.setInput(input);
-
-        ArrayList<Token> listaTokens = new ArrayList<>();
 
         try {
-            Token t = null;
-            while ((t = lexico.nextToken()) != null) {
-                listaTokens.add(t);
-            }
+            Lexico lexico = new Lexico();
+            lexico.setInput(input);
+            
+            Sintatico sintatico = new Sintatico();
+            sintatico.parse(lexico, new Semantico());
 
-            StringBuilder sb = new StringBuilder();
-
-            sb.append("Programa compilado com sucesso! \n\n");
-
-            for (Token token : listaTokens) {
-                String classe = ScannerConstants.ClasseToken(token.getId(), token.getLexeme());
-    
-                int linha = encontraLinha(input, token.getPosition());
-                String lexema = token.getLexeme();
-               // sb.append(String.format("%-6d \t%-18s \t%s%n", linha, classe, lexema));
-            }
-            mensagens.setText(sb.toString());
+            mensagens.setText("programa compilado com sucesso");
         }
 
         catch (LexicalError e) {
-            mensagens.setText("");
-
             int linha = encontraLinha(input, e.getPosition());
-            int posicaoErro = e.getPosition();
-            String msgErro = e.getMessage();
-            String simboloErro = actualChar(input, posicaoErro);
-
-            String formatacaoSaida = String.format("linha %d: %s %s", linha, simboloErro, msgErro);
-            mensagens.setText(formatacaoSaida);
+            String simboloErro = actualChar(input, e.getPosition());
+            mensagens.setText(String.format("linha %d: %s %s", linha, simboloErro, e.getMessage()));
         }
+
+        catch (SyntaticError e) {
+            int linha = encontraLinha(input, e.getPosition());
+            mensagens.setText("linha " + linha + ": " + e.getMessage());
+        }
+
+        catch (Exception e) {
+            mensagens.setText("Erro inesperado: " + e.getMessage());
+        }
+
     }
 
     private String actualChar(String texto, int pos) {

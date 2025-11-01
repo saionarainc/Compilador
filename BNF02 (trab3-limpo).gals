@@ -1,0 +1,190 @@
+#Options
+GenerateScanner = true
+GenerateParser = true
+Language = Java
+ScannerName = Lexico
+ParserName = Sintatico
+SemanticName = Semantico
+Package = org.example
+ScannerCaseSensitive = true
+ScannerTable = Compact
+Input = Stream
+Parser = LL
+#RegularDefinitions
+mai: [A-Z]
+min: [a-z]
+dig: [0-9]
+
+//comentario linha
+linha: "/" "/" [^\n]*
+
+//comentario bloco
+bloco: "{" [^"{" "}"]*"}"
+#Tokens
+//identificador
+id: ({min}|{mai}{min}+)+(_{dig}+)?
+
+//cte_float
+cte_float: (0|[1-9]{dig}?{dig}?{dig}?{dig}?)"."({dig}?{dig}?{dig}?{dig}?[1-9]|0)
+
+//cte_int
+cte_int: 0|[1-9]{dig}?{dig}?{dig}?{dig}?
+
+//cte_string
+cte_string: \"[^\n\""\"]*\"
+
+//palavra reservada
+pr_add = id : "add"
+pr_and = id : "and"
+pr_elementOf = id : "elementOf"
+pr_begin = id : "begin"
+pr_bool = id : "bool"
+pr_count = id : "count"
+pr_delete = id : "delete"
+pr_do = id : "do"
+pr_else = id : "else"
+pr_end = id : "end"
+pr_false = id : "false"
+pr_float = id : "float"
+pr_if = id : "if"
+pr_int = id : "int"
+pr_list = id : "list"
+pr_not = id : "not"
+pr_or = id : "or"
+pr_print = id : "print"
+pr_read = id : "read"
+pr_size = id : "size"
+pr_string = id : "string"
+pr_true = id : "true"
+pr_until = id : "until"
+
+//simbolos especiais
+"("
+")"
+"~="
+"+"
+"-"
+"*"
+"/"
+"=="
+"<"
+">"
+"="
+"<-"
+";"
+","
+
+// reconhecer e ignorar comentarios
+:!{bloco}
+:!{linha}
+
+
+//reconhecer e ignorar caracter de formatacao
+: [\n\t\s]
+#NonTerminals
+<forma_geral>
+<lista_instru>
+<dec_var>
+<comando>
+<entrada>
+<saida>
+<selecao>
+<repeticao>
+<tipo>
+<lista_ids>
+<elemento>
+<posicao>
+<lista_entrada>
+<cte_string_opc>
+<lista_expre>
+<expressao>
+<lista_cmd>
+<simples>
+<expressao_>
+<relacional>
+<relacional_>
+<valor>
+<operador_relacional>
+<aritmetica>
+<aritmetica_>
+<termo>
+<termo_>
+<fator>
+<fator_>
+<instrucao>
+<lista_instru1>
+<escolha>
+<lista_ids1>
+<lista_entrada1>
+<lista_expre1>
+<selecao1>
+<lista_cmd1>
+
+
+
+
+#Grammar
+<forma_geral>::= pr_begin <lista_instru> pr_end;
+
+<lista_instru>::= <instrucao> ";" <lista_instru1> ;
+<lista_instru1>::= î | <lista_instru> ;
+
+<instrucao>::= <dec_var> | <comando>;
+
+<comando>::= id <escolha> | <entrada>|<saida>|<selecao>|<repeticao>;
+<escolha>::=  "=" <expressao> | "<-"<expressao> | pr_add "(" <elemento> "," <posicao> ")" | pr_delete "(" <posicao> ")";
+
+<dec_var>::= <tipo><lista_ids>;
+<tipo>::= pr_bool|pr_int|pr_float|pr_string|pr_list "(" <simples> "," cte_int ")";
+
+
+<lista_ids>::= id <lista_ids1> ;
+<lista_ids1>::= î | "," <lista_ids>;
+
+<elemento>::= <expressao>;
+<posicao>::= <expressao>;
+
+<entrada>::= pr_read "(" <lista_entrada> ")";
+
+<lista_entrada>::= <cte_string_opc>  id <lista_entrada1>;
+<lista_entrada1>::= "," <lista_entrada> | î;
+
+<cte_string_opc>::= cte_string "," | î;
+
+<saida>::= pr_print "(" <lista_expre> ")";
+
+<lista_expre>::= <expressao> <lista_expre1>;
+<lista_expre1>::= "," <lista_expre> | î;
+
+<selecao>::= pr_if <expressao> <lista_cmd> <selecao1>;
+<selecao1>::= pr_end | pr_else <lista_cmd> pr_end;
+
+<lista_cmd>::= <comando> ";" <lista_cmd1>;
+<lista_cmd1>::= î | <lista_cmd>;
+
+<repeticao>::= pr_do <lista_cmd> pr_until <expressao>;
+
+<simples>::= pr_bool | pr_int | pr_float | pr_string;
+
+<expressao> ::= <valor> <expressao_> ;
+<expressao_> ::= î | pr_and <valor> <expressao_> | pr_or <valor> <expressao_> ;
+<valor> ::= <relacional> | pr_true | pr_false | pr_not <valor> ;
+<relacional> ::= <aritmetica> <relacional_> ;
+<relacional_> ::= î | <operador_relacional> <aritmetica> ;
+<operador_relacional>::= "==" | "~=" | "<" | ">" ;
+<aritmetica> ::= <termo> <aritmetica_> ;
+<aritmetica_> ::= î | "+" <termo> <aritmetica_> | "-" <termo> <aritmetica_> ;
+<termo> ::= <fator> <termo_> ;
+<termo_> ::= î | "*" <fator> <termo_> | "/" <fator> <termo_> ;
+<fator> ::= id <fator_> |
+ cte_int |
+ cte_float |
+ cte_string |
+ "(" <expressao> ")" |
+ "+" <fator> |
+ "-" <fator> ;
+<fator_> ::= î | pr_count | pr_size | pr_elementOf "(" <expressao> ")" ;
+
+
+
+
