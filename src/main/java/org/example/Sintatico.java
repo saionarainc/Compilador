@@ -32,7 +32,7 @@ public class Sintatico implements Constants {
 
         int x = ((Integer) stack.pop()).intValue();
         int a = currentToken.getId();
-
+  
         if (x == EPSILON) {
             return false;
         } else if (isTerminal(x)) {
@@ -113,6 +113,6 @@ public class Sintatico implements Constants {
             tmp = lex.trim();
         }
 
-        return String.valueOf(id);
+        return lex.trim();
     }
 }

@@ -306,7 +306,7 @@ public class Visual extends JFrame {
 
         catch (SyntaticError e) {
             int linha = encontraLinha(input, e.getPosition());
-            mensagens.setText("linha " + linha + ": " + e.getMessage());
+            mensagens.setText("linha " + linha + ": " + e.getMessage());    
         }
 
         catch (Exception e) {
