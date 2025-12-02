@@ -211,7 +211,7 @@ public interface ParserConstants
         "esperado identificador do end if print read tipo",//"<lista_instru1> inválido",
         "esperado = <- ( , )",//"<escolha> inválido",
         "esperado ; ,",//"<lista_ids1> inválido",
-        "esperado ,",//"<lista_entrada1> inválido",
+        "esperado , )",//"<lista_entrada1> inválido",
         "esperado ) ,",//"<lista_expre1> inválido",
         "esperado identificador end else",//"<selecao1> inválido",
         "esperado identificador do else end if print read",//"<lista_cmd1> inválido"

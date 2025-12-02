@@ -289,13 +289,35 @@ public class Visual extends JFrame {
         String input = editor.getText();
 
         try {
+            // EXIGÊNCIA DO ENUNCIADO
+            if (arquivoAtual == null) {
+                mensagens.setText("Salve o arquivo antes de compilar.");
+                return;
+            }
+
             Lexico lexico = new Lexico();
             lexico.setInput(input);
             
-            Sintatico sintatico = new Sintatico();
+            /*Sintatico sintatico = new Sintatico();
             sintatico.parse(lexico, new Semantico());
 
-            mensagens.setText("programa compilado com sucesso");
+            mensagens.setText("programa compilado com sucesso");*/
+            Sintatico sintatico = new Sintatico();
+            Semantico semantico = new Semantico();
+
+            sintatico.parse(lexico, semantico);
+
+            // ------------- GERAR ARQUIVO IL ------------------
+            String il = semantico.getCodigoObjeto();
+
+            java.io.File arquivoIL = new java.io.File(
+                arquivoAtual.getParentFile(),
+                arquivoAtual.getName().replace(".txt", ".il")
+            );
+
+            java.nio.file.Files.writeString(arquivoIL.toPath(), il);
+
+            mensagens.setText("Programa compilado com sucesso");
         }
 
         catch (LexicalError e) {
@@ -307,6 +329,11 @@ public class Visual extends JFrame {
         catch (SyntaticError e) {
             int linha = encontraLinha(input, e.getPosition());
             mensagens.setText("linha " + linha + ": " + e.getMessage());    
+        }
+
+        catch (SemanticError e) {   // <-- FALTAVA
+            int linha = encontraLinha(input, e.getPosition());
+            mensagens.setText("linha " + linha + ": " + e.getMessage());
         }
 
         catch (Exception e) {
